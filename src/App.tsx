@@ -1,145 +1,526 @@
-import { Play } from 'lucide-react';
-import React from 'react';
+import React, { useState } from 'react';
+import { 
+  ShieldCheck, HeartPulse, Brain, BatteryCharging, CheckCircle2, 
+  Truck, Package, ChevronDown, Activity, AlertTriangle, Clock, 
+  Star, UserCheck, XCircle, ArrowRight, Play, Info, Coffee, HelpCircle
+} from 'lucide-react';
 
 export default function App() {
-  // CONFIGURACIÓN DE CONTACTO
   const WHATSAPP_NUMBER = "573103065773"; 
-  const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola. vengo de la página web y quiero empezar mi Reto de 28 días.")}`;
+  const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola. Vengo de la página web y quiero empezar mi Reto de 28 días con pago contra entrega.")}`;
+
+  // Estados para la interactividad
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [expandedProduct, setExpandedProduct] = useState<number | null>(null);
+
+  const toggleFaq = (index: number) => {
+    setOpenFaq(openFaq === index ? null : index);
+  };
+
+  const toggleProduct = (index: number) => {
+    setExpandedProduct(expandedProduct === index ? null : index);
+  };
 
   return (
     <div className="w-full min-h-screen bg-[#fafaf8] flex flex-col font-sans text-[#1a1a1a]">
       
-      {/* ENCABEZADO / HEADER */}
-      <header className="bg-[#f1560f] text-white py-4 px-4 sm:px-8 flex justify-between items-center shadow-md sticky top-0 z-50">
-        <div className="flex items-center gap-2">
-          <img 
-            src="/logo.png" 
-            alt="SaludVital Logo" 
-            className="h-10 sm:h-12 w-auto object-contain" 
-          />
-        </div>
-        <div className="flex items-center gap-4 sm:gap-6">
-          <div className="hidden sm:flex items-center gap-2">
-            <div className="w-4 h-4 bg-orange-300 rounded-full flex items-center justify-center">
-              <div className="w-2 h-2 bg-white rounded-full"></div>
-            </div>
-            <span className="text-[10px] font-semibold uppercase tracking-widest text-center leading-tight">
-              Productos con<br/>Sello INVIMA
-            </span>
+      {/* HEADER - STICKY PERMANENTE */}
+      <header className="bg-white border-b border-gray-100 py-3 px-4 sm:px-8 flex justify-between items-center sticky top-0 z-50 shadow-sm">
+        <div className="flex items-center gap-3">
+          <img src="/logo.png" alt="SaludVital Logo" className="h-10 object-contain" />
+          <div className="hidden sm:flex flex-col">
+            <span className="text-[#f1560f] font-black text-sm tracking-tight uppercase">SaludVital</span>
+            <span className="text-gray-500 text-[10px] uppercase tracking-widest">Fórmulas Biocéuticas</span>
           </div>
-          {/* BOTÓN SUPERIOR CORREGIDO: Ahora envía a WhatsApp */}
-          <a 
-            href={WHATSAPP_URL} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="bg-white text-[#f1560f] px-4 sm:px-6 py-2 rounded-full font-bold text-xs sm:text-sm uppercase transition-all shadow-md hover:bg-orange-50 active:scale-95"
-          >
-            Comprar
+        </div>
+        <div className="flex items-center gap-4">
+          <span className="hidden md:flex text-xs font-bold text-[#f1560f] bg-orange-50 px-3 py-1 rounded-full border border-orange-100">
+            <Truck className="w-4 h-4 mr-1 inline-block" /> Entrega Inmediata en Piedecuesta y AM
+          </span>
+          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="bg-[#f1560f] text-white px-5 py-2 rounded-full font-black text-sm transition-all hover:bg-[#d44808] shadow-[0_4px_14px_0_rgba(241,86,15,0.39)]">
+            PEDIR RETO 28 DÍAS
           </a>
         </div>
       </header>
 
-      <main className="flex-1 flex flex-col lg:grid lg:grid-cols-12 gap-0 overflow-visible">
-        
-        {/* SECCIÓN DE ATENCIÓN (IZQUIERDA) */}
-        <section className="lg:col-span-5 bg-white lg:border-r border-gray-100 p-6 sm:p-8 flex flex-col justify-center min-h-[50vh] lg:min-h-[calc(100vh-80px)]">
-          <div className="mb-6 lg:mb-8 text-center flex flex-col items-center">
-            <span className="bg-orange-100 text-[#f1560f] px-3 py-1 rounded text-[10px] sm:text-xs font-black uppercase mb-4 inline-block">
-              Desafío de Transformación
-            </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-black text-[#f1560f] leading-tight mb-4">
-              RETO<br/>28 DÍAS
+      {/* BLOQUE 1: HERO (ABOVE THE FOLD) */}
+      <section className="bg-gradient-to-b from-orange-50 to-[#fafaf8] pt-12 pb-16 px-4">
+        <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-10">
+          <div className="lg:w-1/2 flex flex-col items-center lg:items-start text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 bg-orange-100 text-[#f1560f] px-3 py-1 rounded-full text-xs font-black uppercase mb-6 tracking-wider">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#f1560f] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#f1560f]"></span>
+              </span>
+              Distribución Directa Autorizada
+            </div>
+            
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 leading-[1.1] mb-6">
+              Siente la ligereza de un cuerpo libre de toxinas en <span className="text-[#f1560f]">28 Días.</span>
             </h1>
-            <p className="text-base sm:text-lg text-gray-600 max-w-sm mb-8">
-              Desintoxica, revitaliza y fortalece tu sistema inmune con nuestro combo de alta eficiencia.
+            
+            <p className="text-lg text-gray-600 mb-8 max-w-lg leading-relaxed">
+              El único protocolo biocéutico integrado que <strong>desinflama tu colon, resetea tu metabolismo y elimina la fatiga crónica</strong> actuando directamente sobre la saturación celular.
             </p>
             
-            {/* VIDEO VSL VERTICAL 9/16 */}
-            <div className="relative w-full aspect-[9/16] max-w-[280px] sm:max-w-[320px] bg-black rounded-xl overflow-hidden shadow-2xl flex items-center justify-center mb-6 lg:mb-0">
-              <video 
-                controls 
-                className="w-full h-full object-cover"
-                poster="/logo.png"
-              >
-                <source src="/video-munot.mp4" type="video/mp4" />
-                Tu navegador no soporta la reproducción de videos.
-              </video>
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-8">
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="bg-[#f1560f] text-white text-lg font-black py-4 px-8 rounded-xl shadow-xl hover:scale-105 transition-transform flex justify-center items-center gap-2 animate-pulse">
+                INICIAR MI TRANSCRIPCIÓN HOY <ArrowRight className="w-5 h-5" />
+              </a>
+            </div>
+
+            {/* Social Proof */}
+            <div className="flex items-center gap-4 border-t border-gray-200 pt-4 w-full">
+              <div className="flex -space-x-3">
+                <img src="https://i.pravatar.cc/100?img=11" alt="user" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" />
+                <img src="https://i.pravatar.cc/100?img=12" alt="user" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" />
+                <img src="https://i.pravatar.cc/100?img=32" alt="user" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" />
+                <div className="w-10 h-10 rounded-full bg-[#f1560f] text-white flex items-center justify-center text-[10px] font-bold border-2 border-white z-10">+5k</div>
+              </div>
+              <div className="flex flex-col">
+                <div className="flex text-[#f1560f] w-4 h-4 gap-1 mb-1">
+                  <Star fill="currentColor" size={14} /><Star fill="currentColor" size={14} /><Star fill="currentColor" size={14} /><Star fill="currentColor" size={14} /><Star fill="currentColor" size={14} />
+                </div>
+                <span className="text-xs text-gray-500 font-medium">Respaldado por resultados clínicos verificados.</span>
+              </div>
             </div>
           </div>
           
-          <div className="flex items-center gap-4 mt-auto lg:border-t lg:pt-6">
-            <div className="flex -space-x-3">
-              <div className="w-10 h-10 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center text-[10px] font-bold z-30">+5k</div>
-              <div className="w-10 h-10 rounded-full bg-gray-300 border-2 border-white z-20"></div>
-              <div className="w-10 h-10 rounded-full bg-gray-400 border-2 border-white z-10"></div>
+          <div className="lg:w-1/2 w-full max-w-md relative">
+            <div className="relative aspect-[4/5] bg-black rounded-3xl overflow-hidden shadow-2xl border-8 border-white group">
+              <video controls className="w-full h-full object-cover" poster="/logo.png">
+                <source src="/video-munot.mp4" type="video/mp4" />
+              </video>
+              <div className="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-gray-800 shadow-sm flex items-center gap-1">
+                <ShieldCheck className="w-4 h-4 text-[#f1560f]" /> Certificación INVIMA Vigente
+              </div>
             </div>
-            <p className="text-xs font-medium text-gray-500">
-              Más de <span className="text-[#f1560f] font-bold">5,000 personas</span> han iniciado su cambio este mes.
+          </div>
+        </div>
+      </section>
+
+      {/* BLOQUE 2: PUNTOS DE DOLOR AMPLIADOS */}
+      <section className="py-20 px-4 bg-white border-b border-gray-100">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-16 max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-6">¿Tu cuerpo te está pidiendo ayuda a gritos y lo estás ignorando?</h2>
+            <p className="text-gray-600 text-lg leading-relaxed">
+              El verdadero problema no es la falta de fuerza de voluntad, es la <strong>acumulación silenciosa de toxinas</strong>. Cuando el hígado y el colon están saturados, el cuerpo entra en modo de supervivencia: bloquea la quema de grasa para encapsular desechos, apaga la energía cerebral para ahorrar combustible y debilita tus defensas biológicas.
             </p>
           </div>
-        </section>
-
-        {/* SECCIÓN DE PRODUCTOS (DERECHA) */}
-        <section className="lg:col-span-7 p-6 sm:p-8 flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:content-center bg-[#fafaf8] min-h-[50vh] lg:min-h-[calc(100vh-80px)]">
           
-          {/* MUNO T */}
-          <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 items-center">
-            <img src="/muno-t.png" alt="MUNO T" className="w-16 h-16 sm:w-20 sm:h-20 object-contain flex-shrink-0" />
-            <div className="flex flex-col">
-              <h3 className="font-black text-lg text-[#f1560f]">MUNO T</h3>
-              <p className="text-[10px] text-gray-400 font-bold mb-1 uppercase">NSA-1373-2026</p>
-              <p className="text-xs text-gray-600 leading-tight">Desinflama y Desintoxica hígado y colon.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-gray-50 p-8 rounded-3xl border border-gray-100 hover:border-[#f1560f] transition-all duration-300">
+              <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center mb-6">
+                <AlertTriangle className="w-8 h-8 text-[#f1560f]" />
+              </div>
+              <h3 className="font-black text-xl mb-3 text-gray-900">Abdomen Inflamado y Colon Irritable</h3>
+              <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                Sientes pesadez inmediata incluso tomando agua. El tránsito intestinal es lento, doloroso o irregular, acumulando materia orgánica que se fermenta y produce gases nocivos y retención de líquidos masiva en el tejido subcutáneo.
+              </p>
+              <span className="text-xs font-bold text-[#f1560f] bg-orange-50 px-2 py-1 rounded">Raíz: Saturación del Colon Descedente</span>
+            </div>
+            
+            <div className="bg-gray-50 p-8 rounded-3xl border border-gray-100 hover:border-[#f1560f] transition-all duration-300">
+              <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center mb-6">
+                <Brain className="w-8 h-8 text-[#f1560f]" />
+              </div>
+              <h3 className="font-black text-xl mb-3 text-gray-900">Fatiga Mental, Estrés y Neblina Cognitiva</h3>
+              <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                Te despiertas sintiendo que no dormiste nada. Tu capacidad de enfoque cae a las 2:00 PM, dependes de estimulantes artificiales (cafeína, azúcar) y experimentas episodios de ansiedad por comer harinas debido a los altos niveles de cortisol.
+              </p>
+              <span className="text-xs font-bold text-[#f1560f] bg-orange-50 px-2 py-1 rounded">Raíz: Sobrecarga de Cortisol y Neurotoxinas</span>
+            </div>
+            
+            <div className="bg-gray-50 p-8 rounded-3xl border border-gray-100 hover:border-[#f1560f] transition-all duration-300">
+              <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center mb-6">
+                <BatteryCharging className="w-8 h-8 text-[#f1560f]" />
+              </div>
+              <h3 className="font-black text-xl mb-3 text-gray-900">Estancamiento Físico y Metabolismo Lento</h3>
+              <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                Por más dietas restrictivas que hagas, la báscula no se mueve. Tu cuerpo carece de la capacidad de sintetizar energía celular (ATP) de forma eficiente, lo que genera debilidad muscular constante, recuperación lenta y bajas defensas sistémicas.
+              </p>
+              <span className="text-xs font-bold text-[#f1560f] bg-orange-50 px-2 py-1 rounded">Raíz: Disfunción Mitocondrial por Escoria Orgánica</span>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* CELLERGY BOOST® */}
-          <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 items-center">
-            <img src="/cllrgy-buust.png" alt="CELLERGY BOOST®" className="w-16 h-16 sm:w-20 sm:h-20 object-contain flex-shrink-0" />
-            <div className="flex flex-col">
-              <h3 className="font-black text-lg text-[#f1560f]">CELLERGY BOOST®</h3>
-              <p className="text-[10px] text-gray-400 font-bold mb-1 uppercase">RSA-1473-2026</p>
-              <p className="text-xs text-gray-600 leading-tight">Vitalidad natural y enfoque mental.</p>
+      {/* BLOQUE 3: ROMPIENDO MITOS */}
+      <section className="py-16 px-4 bg-gray-900 text-white">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-black mb-6">Por qué las soluciones tradicionales solo empeoran tu estado...</h2>
+              <p className="text-gray-400 mb-8 text-lg">El mercado está inundado de productos "milagro" que destruyen tu fisiología interna para darte un resultado de 24 horas.</p>
+              
+              <ul className="space-y-6">
+                <li className="flex items-start gap-4">
+                  <XCircle className="w-6 h-6 text-red-500 shrink-0 mt-1" />
+                  <div>
+                    <h4 className="font-bold text-lg text-white">Laxantes Químicos y "Tés Divinos" Agresivos</h4>
+                    <p className="text-gray-400 text-sm mt-1">Contienen componentes irritantes como el Sen o la Cassia, los cuales destruyen las microvellosidades del colon y barren la microbiota benéfica, causando un colon perezoso crónico irreversible.</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <XCircle className="w-6 h-6 text-red-500 shrink-0 mt-1" />
+                  <div>
+                    <h4 className="font-bold text-lg text-white">Quemadores de Grasa Hiperestimulantes</h4>
+                    <p className="text-gray-400 text-sm mt-1">Sobrecargan tus glándulas suprarrenales con cafeína anhidra, disparando la presión arterial, alterando el sistema nervioso y deteniendo por completo la pérdida de peso real debido al estrés celular.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div className="bg-[#f1560f] p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+              <h3 className="text-2xl font-black mb-4">El Enfoque Clínico Correcto</h3>
+              <p className="text-white/90 text-lg mb-6 leading-relaxed">
+                El Reto 28 días no obliga a tu cuerpo mediante agresores; le aporta fitonutrientes puros de grado farmacéutico. Al limpiar el filtro principal (hígado) y el canal de evacuación (colon), tu metabolismo se desbloquea de forma orgánica y definitiva.
+              </p>
+              <div className="flex items-center gap-2 font-bold text-white bg-black/20 w-fit px-4 py-2 rounded-full text-xs">
+                <CheckCircle2 className="w-4 h-4 text-green-300" /> Sinergia Científica sin Efecto Rebote
+              </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* NEURO CELL */}
-          <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 items-center">
-            <img src="/nrcll.png" alt="NEURO CELL" className="w-16 h-16 sm:w-20 sm:h-20 object-contain flex-shrink-0" />
-            <div className="flex flex-col">
-              <h3 className="font-black text-lg text-[#f1560f]">NEURO CELL</h3>
-              <p className="text-[10px] text-gray-400 font-bold mb-1 uppercase">RSA-1474-2026</p>
-              <p className="text-xs text-gray-600 leading-tight">Nutrición cerebral y sueño reparador.</p>
-            </div>
+      {/* BLOQUE 4: LA SOLUCIÓN CON TARJETAS INTERACTIVAS (CLICK PARA DESPLEGAR) */}
+      <section className="py-20 px-4 bg-[#fafaf8]">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8">
+            <span className="text-[#f1560f] font-black uppercase tracking-widest text-sm mb-2 block">Acción Sinergica Modular</span>
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4">Las 4 Fórmulas de Tu Transformación</h2>
+            <p className="text-gray-500 max-w-xl mx-auto text-sm bg-orange-50 text-[#f1560f] py-2 px-4 rounded-full font-bold inline-block">
+              💡 Haz clic sobre cualquier tarjeta para desplegar su composición técnica y beneficios
+            </p>
           </div>
-
-          {/* CELION POWER */}
-          <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex gap-4 items-center">
-            <img src="/celion-pwr.png" alt="CELION POWER" className="w-16 h-16 sm:w-20 sm:h-20 object-contain flex-shrink-0" />
-            <div className="flex flex-col">
-              <h3 className="font-black text-lg text-[#f1560f]">CELION POWER</h3>
-              <p className="text-[10px] text-gray-400 font-bold mb-1 uppercase">RSA-1475-2026</p>
-              <p className="text-xs text-gray-600 leading-tight">Moringa y Espirulina para tus defensas.</p>
-            </div>
-          </div>
-
-          {/* CTA DE COMPRA */}
-          <div className="lg:col-span-2 bg-[#f1560f] rounded-2xl p-6 text-white flex flex-col md:flex-row items-center justify-between shadow-lg gap-4 mt-4 w-full">
-            <div className="flex flex-col">
-              <h4 className="text-3xl font-black">$335.000 COP</h4>
-              <p className="text-[10px] opacity-70 uppercase">Envío gratis + Pago contraentrega</p>
-            </div>
-            <a 
-              href={WHATSAPP_URL} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="bg-white text-[#f1560f] py-3 px-8 rounded-xl font-black uppercase text-sm shadow-xl transition-transform hover:scale-105 active:scale-95"
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+            
+            {/* PRODUCTO 1: MUNO T */}
+            <div 
+              onClick={() => toggleProduct(1)}
+              className={`bg-white p-6 rounded-3xl shadow-md border transition-all duration-300 cursor-pointer flex flex-col items-center text-center relative ${expandedProduct === 1 ? 'border-[#f1560f] ring-2 ring-orange-100 shadow-xl' : 'border-gray-100 hover:border-orange-300'}`}
             >
-              Comprar el Combo
-            </a>
-          </div>
+              <div className="w-28 h-28 bg-orange-50 rounded-full flex items-center justify-center mb-4 transition-transform hover:scale-105">
+                <img src="/muno-t.png" alt="MUNO T" className="w-20 h-20 object-contain" />
+              </div>
+              <h3 className="font-black text-xl text-gray-900 mb-1">MUNO T</h3>
+              <p className="text-[10px] text-gray-400 font-bold mb-3 uppercase tracking-wider bg-gray-100 px-2 py-0.5 rounded">Regulación Metabólica</p>
+              <p className="text-sm text-gray-600 leading-relaxed mb-4">Desintoxicación hepática de fase I y II, drenaje linfático profundo y modulación digestiva.</p>
+              
+              <div className="mt-auto flex items-center gap-1 text-xs font-bold text-[#f1560f]">
+                <Info size={14} /> {expandedProduct === 1 ? "Ocultar detalles" : "Ver componentes y ciencia"}
+              </div>
 
-        </section>
-      </main>
+              {/* LEYENDA EXTRA DESPLEGABLE */}
+              {expandedProduct === 1 && (
+                <div className="w-full mt-4 pt-4 border-t border-gray-100 text-left bg-orange-50/50 p-3 rounded-xl transition-all">
+                  <p className="text-xs text-gray-700 font-bold mb-1">🧬 Rigor Clínico:</p>
+                  <p className="text-[11px] text-gray-600 leading-relaxed mb-2">Estimula la síntesis de glutatión hepático y desinflama las vellosidades de la mucosa intestinal, permitiendo que el colon recupere su motilidad natural sin irritación celular.</p>
+                  <p className="text-xs text-gray-700 font-bold mb-1">🌿 Componentes Activos:</p>
+                  <p className="text-[11px] text-gray-600">Extractos estandarizados de Alcachofa, Boldo, Té Verde y prebióticos de alta asimilación biológica.</p>
+                </div>
+              )}
+            </div>
+            
+            {/* PRODUCTO 2: CELLERGY BOOST */}
+            <div 
+              onClick={() => toggleProduct(2)}
+              className={`bg-white p-6 rounded-3xl shadow-md border transition-all duration-300 cursor-pointer flex flex-col items-center text-center relative ${expandedProduct === 2 ? 'border-[#f1560f] ring-2 ring-orange-100 shadow-xl' : 'border-gray-100 hover:border-orange-300'}`}
+            >
+              <div className="w-28 h-28 bg-orange-50 rounded-full flex items-center justify-center mb-4 transition-transform hover:scale-105">
+                <img src="/cllrgy-buust.png" alt="CELLERGY BOOST" className="w-20 h-20 object-contain" />
+              </div>
+              <h3 className="font-black text-xl text-gray-900 mb-1">CELLERGY®</h3>
+              <p className="text-[10px] text-gray-400 font-bold mb-3 uppercase tracking-wider bg-gray-100 px-2 py-0.5 rounded">Soporte Inmune & Energía</p>
+              <p className="text-sm text-gray-600 leading-relaxed mb-4">Vitalidad celular inmediata, blindaje del sistema inmunitario y erradicación de la fatiga crónica.</p>
+              
+              <div className="mt-auto flex items-center gap-1 text-xs font-bold text-[#f1560f]">
+                <Info size={14} /> {expandedProduct === 2 ? "Ocultar detalles" : "Ver componentes y ciencia"}
+              </div>
+
+              {/* LEYENDA EXTRA DESPLEGABLE */}
+              {expandedProduct === 2 && (
+                <div className="w-full mt-4 pt-4 border-t border-gray-100 text-left bg-orange-50/50 p-3 rounded-xl">
+                  <p className="text-xs text-gray-700 font-bold mb-1">🧬 Rigor Clínico:</p>
+                  <p className="text-[11px] text-gray-600 leading-relaxed mb-2">Incrementa la absorción de micronutrientes esenciales a nivel mitocondrial y optimiza la respuesta leucocitaria protectora ante agentes estresores externos.</p>
+                  <p className="text-xs text-gray-700 font-bold mb-1">🌿 Componentes Activos:</p>
+                  <p className="text-[11px] text-gray-600">Complejo oligominerálico de alta pureza botánica, antioxidantes polifenólicos y adaptógenos naturales de defensa.</p>
+                </div>
+              )}
+            </div>
+
+            {/* PRODUCTO 3: NEURO CELL */}
+            <div 
+              onClick={() => toggleProduct(3)}
+              className={`bg-white p-6 rounded-3xl shadow-md border transition-all duration-300 cursor-pointer flex flex-col items-center text-center relative ${expandedProduct === 3 ? 'border-[#f1560f] ring-2 ring-orange-100 shadow-xl' : 'border-gray-100 hover:border-orange-300'}`}
+            >
+              <div className="w-28 h-28 bg-orange-50 rounded-full flex items-center justify-center mb-4 transition-transform hover:scale-105">
+                <img src="/nrcll.png" alt="NEURO CELL" className="w-20 h-20 object-contain" />
+              </div>
+              <h3 className="font-black text-xl text-gray-900 mb-1">NEURO CELL</h3>
+              <p className="text-[10px] text-gray-400 font-bold mb-3 uppercase tracking-wider bg-gray-100 px-2 py-0.5 rounded">Soporte Cognitivo</p>
+              <p className="text-sm text-gray-600 leading-relaxed mb-4">Nutrición cerebral avanzada, control del estrés y restauración del ciclo de sueño reparador.</p>
+              
+              <div className="mt-auto flex items-center gap-1 text-xs font-bold text-[#f1560f]">
+                <Info size={14} /> {expandedProduct === 3 ? "Ocultar detalles" : "Ver componentes y ciencia"}
+              </div>
+
+              {/* LEYENDA EXTRA DESPLEGABLE */}
+              {expandedProduct === 3 && (
+                <div className="w-full mt-4 pt-4 border-t border-gray-100 text-left bg-orange-50/50 p-3 rounded-xl">
+                  <p className="text-xs text-gray-700 font-bold mb-1">🧬 Rigor Clínico:</p>
+                  <p className="text-[11px] text-gray-600 leading-relaxed mb-2">Regula los receptores de GABA en el cerebro, reduciendo la hiperactividad neuronal nocturna para inducir fases de sueño profundo DELTA (fase de máxima regeneración).</p>
+                  <p className="text-xs text-gray-700 font-bold mb-1">🌿 Componentes Activos:</p>
+                  <p className="text-[11px] text-gray-600">Magnesio quelado de alta biodisponibilidad, precursores de neurotransmisores cognitivos y extractos botánicos calmantes.</p>
+                </div>
+              )}
+            </div>
+
+            {/* PRODUCTO 4: CELION POWER */}
+            <div 
+              onClick={() => toggleProduct(4)}
+              className={`bg-white p-6 rounded-3xl shadow-md border transition-all duration-300 cursor-pointer flex flex-col items-center text-center relative ${expandedProduct === 4 ? 'border-[#f1560f] ring-2 ring-orange-100 shadow-xl' : 'border-gray-100 hover:border-orange-300'}`}
+            >
+              <div className="w-28 h-28 bg-orange-50 rounded-full flex items-center justify-center mb-4 transition-transform hover:scale-105">
+                <img src="/celion-pwr.png" alt="CELION POWER" className="w-20 h-20 object-contain" />
+              </div>
+              <h3 className="font-black text-xl text-gray-900 mb-1">CELION PWR</h3>
+              <p className="text-[10px] text-gray-400 font-bold mb-3 uppercase tracking-wider bg-gray-100 px-2 py-0.5 rounded">Rendimiento Físico</p>
+              <p className="text-sm text-gray-600 leading-relaxed mb-4">Combustible celular (ATP), alcalinización de la sangre y recuperación de la fatiga muscular.</p>
+              
+              <div className="mt-auto flex items-center gap-1 text-xs font-bold text-[#f1560f]">
+                <Info size={14} /> {expandedProduct === 4 ? "Ocultar detalles" : "Ver componentes y ciencia"}
+              </div>
+
+              {/* LEYENDA EXTRA DESPLEGABLE */}
+              {expandedProduct === 4 && (
+                <div className="w-full mt-4 pt-4 border-t border-gray-100 text-left bg-orange-50/50 p-3 rounded-xl">
+                  <p className="text-xs text-gray-700 font-bold mb-1">🧬 Rigor Clínico:</p>
+                  <p className="text-[11px] text-gray-600 leading-relaxed mb-2">Acelera el aclaramiento del ácido láctico acumulado en las fibras musculares tras el ejercicio y promueve la oxigenación celular a través de superalimentos densos.</p>
+                  <p className="text-xs text-gray-700 font-bold mb-1">🌿 Componentes Activos:</p>
+                  <p className="text-[11px] text-gray-600">Espirulina Orgánica premium, Extracto concentrado de Moringa oleífera y aminoácidos esenciales de origen vegetal.</p>
+                </div>
+              )}
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* NUEVA SECCIÓN DE VIDEO: ENFOQUE EXCLUSIVO EN MUNO T */}
+      <section className="py-16 px-4 bg-orange-50 border-y border-orange-100">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-10">
+          <div className="w-full md:w-5/12 max-w-[320px] mx-auto">
+            <div className="relative aspect-[9/16] bg-black rounded-3xl overflow-hidden shadow-xl border-4 border-white">
+              <video controls className="w-full h-full object-cover" poster="/logo.png">
+                <source src="/video-munot.mp4" type="video/mp4" />
+              </video>
+              <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none group-hover:bg-black/40 transition-all">
+                <div className="w-14 h-14 bg-[#f1560f] rounded-full flex items-center justify-center text-white shadow-lg animate-pulse">
+                  <Play size={24} fill="currentColor" className="ml-1" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="w-full md:w-7/12">
+            <span className="text-[#f1560f] font-black uppercase text-xs tracking-wider bg-orange-200/50 px-3 py-1 rounded">Video de Enfoque Clínico</span>
+            <h2 className="text-3xl font-black text-gray-900 mt-3 mb-4">MUNO T: La Llave Maestra para Desbloquear tu Metabolismo</h2>
+            <p className="text-gray-700 text-sm leading-relaxed mb-4">
+              En este video, desglosamos la ciencia detrás de **MUNO T**. Entenderás cómo actúa directamente sobre las enzimas hepáticas en los procesos de desintoxicación y cómo su efecto desinflamatorio logra deshacer la costra intestinal acumulada, aliviando la pesadez estomacal desde las primeras horas de uso.
+            </p>
+            <ul className="space-y-2 text-xs font-bold text-gray-800">
+              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#f1560f]" /> Regulación del peristaltismo intestinal de forma sutil.</li>
+              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#f1560f]" /> Eliminación de retención de líquidos acumulados en zonas difíciles.</li>
+              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#f1560f]" /> Acción antioxidante directa con Registro Sanitario INVIMA.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* NUEVA SECCIÓN DE VIDEO: PREPARACIÓN Y RUTINA DIARIA */}
+      <section className="py-16 px-4 bg-white">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row-reverse items-center gap-10">
+          <div className="w-full md:w-5/12 max-w-[320px] mx-auto">
+            <div className="relative aspect-[9/16] bg-black rounded-3xl overflow-hidden shadow-xl border-4 border-white">
+              <video controls className="w-full h-full object-cover" poster="/logo.png">
+                <source src="/video-munot.mp4" type="video/mp4" />
+              </video>
+              <div className="absolute inset-0 flex items-center justify-center bg-black/10 pointer-events-none">
+                <div className="w-14 h-14 bg-gray-900 rounded-full flex items-center justify-center text-white shadow-lg">
+                  <Play size={24} fill="currentColor" className="ml-1" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="w-full md:w-7/12">
+            <span className="text-[#f1560f] font-black uppercase text-xs tracking-wider bg-orange-100 px-3 py-1 rounded">Preparación en Tiempo Real</span>
+            <h2 className="text-3xl font-black text-gray-900 mt-3 mb-4">Mira lo Fácil que es Integrar el Reto a tu Rutina Diaria</h2>
+            <p className="text-gray-700 text-sm leading-relaxed mb-6">
+              Sabemos que estás sobrecargado y no tienes tiempo para protocolos complejos. Por eso, nuestras fórmulas biocéuticas han sido diseñadas para disolverse al instante y absorberse de forma sublingual y gástrica ultra veloz. En menos de 2 minutos al día tendrás cubierto tu blindaje celular completo.
+            </p>
+
+            <div className="space-y-4">
+              <div className="flex gap-3">
+                <div className="w-8 h-8 rounded-full bg-[#f1560f] text-white flex items-center justify-center font-bold text-sm shrink-0">1</div>
+                <div>
+                  <h4 className="font-bold text-gray-900 text-sm">Mañana: Energía e Inmunidad</h4>
+                  <p className="text-xs text-gray-600 mt-0.5">Disuelve tu dosis de CELLERGY y CELION PWR en agua antes de tu desayuno para un inicio de alta potencia muscular y mental.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="w-8 h-8 rounded-full bg-[#f1560f] text-white flex items-center justify-center font-bold text-sm shrink-0">2</div>
+                <div>
+                  <h4 className="font-bold text-gray-900 text-sm">Tarde: Regulación Digestiva</h4>
+                  <p className="text-xs text-gray-600 mt-0.5">Toma tu porción de MUNO T justo después de tu almuerzo para evitar la inflamación abdominal y mantener el metabolismo activo.</p>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div className="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center font-bold text-sm shrink-0">3</div>
+                <div>
+                  <h4 className="font-bold text-gray-900 text-sm">Noche: Reparación Nerviosa</h4>
+                  <p className="text-xs text-gray-600 mt-0.5">Una pequeña dosis de NEURO CELL en agua tibia antes de dormir para inducir el descanso delta profundo y regenerador.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* BLOQUE 5: AUTORIDAD Y SELLOS */}
+      <section className="py-12 px-4 bg-white border-t border-gray-100">
+        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-center gap-6 bg-gray-50 p-8 rounded-2xl border border-gray-200">
+          <ShieldCheck className="w-16 h-16 text-[#f1560f] shrink-0" />
+          <div>
+            <h3 className="text-xl font-black text-gray-900 mb-2">Garantía de Calidad Farmacéutica Colombiana</h3>
+            <p className="text-sm text-gray-600 mb-3 leading-relaxed">Cada frasco incluido en el Reto de 28 Días ha sido sometido a estrictos controles microbiológicos y de pureza botánica, avalados bajo los registros de la autoridad competente colombiana.</p>
+            <div className="flex gap-2 flex-wrap">
+              <span className="text-[10px] font-bold bg-white px-2 py-1 rounded text-gray-700 border border-gray-200">MUNO T: NSA-1373-2026</span>
+              <span className="text-[10px] font-bold bg-white px-2 py-1 rounded text-gray-700 border border-gray-200">CELLERGY: RSA-1473-2026</span>
+              <span className="text-[10px] font-bold bg-white px-2 py-1 rounded text-gray-700 border border-gray-200">NEURO CELL: RSA-1474-2026</span>
+              <span className="text-[10px] font-bold bg-white px-2 py-1 rounded text-gray-700 border border-gray-200">CELION PWR: RSA-1475-2026</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* BLOQUE 6: APILAMIENTO DE VALOR (OFERTA) */}
+      <section className="py-20 px-4 bg-gray-900 text-white">
+        <div className="max-w-5xl mx-auto flex flex-col lg:flex-row gap-10 items-center">
+          <div className="lg:w-1/2">
+            <h2 className="text-3xl md:text-5xl font-black mb-6">Tu momento de recuperar el control es HOY.</h2>
+            <p className="text-gray-300 mb-8 text-lg leading-relaxed">No sigas aplazando tu bienestar ni gastando en paliativos que dañan tu colon. Adquiere el tratamiento integral con envío prioritario inmediato.</p>
+            
+            <div className="space-y-3">
+              <div className="flex items-center gap-3 bg-white/5 p-3 rounded-xl border border-white/10">
+                <Package className="w-5 h-5 text-[#f1560f]" />
+                <span className="text-sm font-medium">Tratamiento Completo en 4 Fórmulas Sinergicas (28 Días)</span>
+              </div>
+              <div className="flex items-center gap-3 bg-white/5 p-3 rounded-xl border border-white/10">
+                <Truck className="w-5 h-5 text-[#f1560f]" />
+                <span className="text-sm font-medium">Logística Especial Gratuita (Piedecuesta y Área Metro)</span>
+              </div>
+              <div className="flex items-center gap-3 bg-white/5 p-3 rounded-xl border border-white/10">
+                <ShieldCheck className="w-5 h-5 text-[#f1560f]" />
+                <span className="text-sm font-medium">Modalidad Contra Entrega: Pagas en Efectivo al Recibir</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="lg:w-1/2 w-full">
+            <div className="bg-white text-gray-900 p-8 md:p-10 rounded-[2.5rem] shadow-2xl relative border border-gray-100">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#f1560f] text-white px-6 py-2 rounded-full font-black uppercase tracking-widest text-xs shadow-lg">
+                Tarifa Especial de Lanzamiento
+              </div>
+              
+              <div className="text-center mb-6 mt-4">
+                <span className="text-gray-400 line-through text-lg block">Precio Habitual: $450.000 COP</span>
+                <div className="text-5xl md:text-6xl font-black text-[#f1560f] leading-none mt-2">
+                  $335.000<span className="text-xl font-bold text-gray-500 ml-1">COP</span>
+                </div>
+              </div>
+              
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="w-full bg-[#f1560f] text-white text-xl font-black py-5 px-8 rounded-2xl shadow-xl hover:scale-105 transition-transform flex justify-center items-center gap-2 mb-4">
+                ORDENAR CONTRA ENTREGA
+              </a>
+              <p className="text-center text-[11px] text-gray-500 leading-relaxed">
+                Al confirmar tu orden por WhatsApp, coordinaremos directamente el bloque de hora de entrega en tu domicilio o lugar de trabajo en Piedecuesta.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* BLOQUE 7: MEGA FAQ AMPLIADO (7 PREGUNTAS RESOLUTIVAS) */}
+      <section className="py-20 px-4 bg-white border-t border-gray-100">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12">
+            <HelpCircle className="w-12 h-12 text-[#f1560f] mx-auto mb-3" />
+            <h2 className="text-3xl font-black text-gray-900 mb-3">Preguntas Frecuentes Clínicas</h2>
+            <p className="text-gray-500 text-sm">Respuestas transparentes para derribar cualquier objeción médica o logística.</p>
+          </div>
+          
+          <div className="space-y-4">
+            {[
+              { 
+                q: "¿Genera algún tipo de dependencia o efecto rebote al terminar?", 
+                a: "En absoluto. Al estar compuesto de fitonutrientes puros de grado farmacéutico y estar libre de laxantes irritantes (como el sen), el tratamiento enseña a tu organismo a autoregularse. Una vez completados los 28 días, tu cuerpo mantiene su ritmo biológico natural." 
+              },
+              { 
+                q: "¿A partir de qué día empiezo a ver cambios reales?", 
+                a: "La desinflamación del colon y la ligereza estomacal se sienten notablemente desde los primeros 3 a 5 días. La optimización del ciclo de sueño profundo y el incremento de energía limpia se consolidan a partir de la segunda semana de uso continuo." 
+              },
+              { 
+                q: "¿Es apto para personas hipertensas o diabéticas?", 
+                a: "Sí, nuestras fórmulas no contienen azúcares añadidos ni estimulantes artificiales (como la cafeína anhidra o taurina) que alteren la frecuencia cardíaca o los picos de insulina. Sin embargo, si estás bajo un tratamiento médico estricto, siempre sugerimos mostrar la tabla de componentes a tu médico de cabecera." 
+              },
+              { 
+                q: "¿Tengo que hacer alguna dieta restrictiva o aguantar hambre?", 
+                a: "No es necesario hacer ayunos extremos ni dietas restrictivas. El combo actúa desbloqueando tu metabolismo orgánicamente. No obstante, si disminuyes el consumo de ultraprocesados durante los 28 días, potenciarás la velocidad del drenaje linfático." 
+              },
+              { 
+                q: "¿Qué sucede si un día me olvido de tomar alguna de las dosis?", 
+                a: "No pasa nada grave. Simplemente retoma el protocolo habitual al día siguiente. No intentes duplicar la dosis para compensar el día olvidado; la clave del éxito del Reto es la constancia a largo plazo, no la saturación en un solo día." 
+              },
+              { 
+                q: "¿Cómo funciona exactamente la logística del pago contra entrega?", 
+                a: "Es la modalidad más segura. Tú haces la solicitud hoy a través de nuestro asesor en WhatsApp. Nosotros preparamos el paquete certificado y el mensajero oficial te lo entrega en tus manos. Tú solo pagas el valor exacto en efectivo al recibir el producto, sin adelantos." 
+              },
+              { 
+                q: "¿Tienen cobertura de entrega real fuera de Piedecuesta?", 
+                a: "Por el momento, nuestra logística prioritaria de entrega inmediata gratuita está concentrada exclusivamente en Piedecuesta y su área metropolitana. Si te encuentras fuera de esta zona de cobertura, por favor consúltalo en el chat de WhatsApp para evaluar si es viable un despacho especial por transportadora nacional confiable." 
+              }
+            ].map((faq, index) => (
+              <div key={index} className="border border-gray-200 rounded-2xl overflow-hidden shadow-sm transition-all duration-300">
+                <button 
+                  onClick={() => toggleFaq(index)} 
+                  className="w-full px-6 py-5 text-left font-bold text-gray-900 flex justify-between items-center bg-gray-50 hover:bg-orange-50 transition-colors"
+                >
+                  <span className="pr-4 text-sm md:text-base">{faq.q}</span>
+                  <ChevronDown className={`w-5 h-5 text-[#f1560f] shrink-0 transition-transform ${openFaq === index ? 'rotate-180' : ''}`} />
+                </button>
+                {openFaq === index && (
+                  <div className="px-6 py-5 text-gray-600 text-sm bg-white border-t border-gray-100 leading-relaxed transition-all">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="bg-gray-100 text-gray-500 py-12 text-center px-4 border-t border-gray-200">
+        <div className="max-w-4xl mx-auto flex flex-col items-center">
+          <img src="/logo.png" alt="SaludVital Logo" className="h-8 object-contain mb-6 grayscale opacity-40" />
+          <p className="text-sm mb-2 font-bold">© 2026 SaludVital Colombia. Todos los derechos reservados.</p>
+          <p className="text-[11px] max-w-2xl leading-relaxed text-gray-400">
+            Aviso de responsabilidad: Las declaraciones de esta página web tienen fines meramente informativos y educativos. Estos productos son suplementos biocéuticos y nutricionales, no están destinados a sustituir diagnósticos, tratamientos o prescripciones médicas autorizadas.
+          </p>
+        </div>
+      </footer>
 
       {/* BOTÓN FLOTANTE WHATSAPP */}
       <div className="fixed bottom-6 right-6 z-50">
@@ -147,7 +528,7 @@ export default function App() {
           href={WHATSAPP_URL} 
           target="_blank"
           rel="noopener noreferrer" 
-          className="w-16 h-16 bg-[#25D366] rounded-full flex items-center justify-center shadow-2xl animate-pulse hover:scale-110 transition-transform"
+          className="w-16 h-16 bg-[#25D366] rounded-full flex items-center justify-center shadow-[0_4px_20px_rgba(37,211,102,0.4)] animate-pulse hover:scale-110 transition-transform"
         >
           <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.63 1.438h.008c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
