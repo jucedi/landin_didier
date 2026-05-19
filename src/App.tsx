@@ -68,6 +68,13 @@ export default function App() {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
+  // Enviar mensaje general a WhatsApp desde el botón flotante
+  const openWhatsAppGeneral = () => {
+    const mensajeWhatsApp = `¡Hola! Me gustaría recibir más información sobre el Reto 28 Días y las fórmulas de SaludVital.`;
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensajeWhatsApp)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <div className="w-full min-h-screen bg-[#fafaf8] flex flex-col font-sans text-[#1a1a1a]">
       
@@ -135,6 +142,7 @@ export default function App() {
           
           <div className="lg:w-1/2 w-full max-w-md relative">
             <div className="relative aspect-[4/5] bg-black rounded-3xl overflow-hidden shadow-2xl border-8 border-white group">
+              {/* VIDEO ORIGINAL HERO */}
               <video controls playsInline className="w-full h-full object-cover" poster="/logo.png">
                 <source src="/video-munot.mp4" type="video/mp4" />
               </video>
@@ -226,7 +234,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* BLOQUE 4: LA SOLUCIÓN CON TARJETAS INTERACTIVAS (NUEVO DISEÑO MUNO T) */}
+      {/* BLOQUE 4: LA SOLUCIÓN CON TARJETAS INTERACTIVAS */}
       <section className="py-20 px-4 bg-[#fafaf8]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-8">
@@ -239,12 +247,11 @@ export default function App() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
             
-            {/* PRODUCTO 1: MUNO T (DISEÑO ESTRELLA IMPORTADO) */}
+            {/* PRODUCTO 1: MUNO T */}
             <div 
               onClick={() => toggleProduct(1)}
               className={`bg-white p-6 rounded-3xl shadow-md border transition-all duration-300 cursor-pointer flex flex-col items-center text-center relative mt-4 lg:mt-0 ${expandedProduct === 1 ? 'border-[#f1560f] ring-2 ring-orange-100 shadow-xl' : 'border-yellow-400 hover:border-orange-300'}`}
             >
-              {/* BADGE ESTRELLA */}
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-400 text-gray-900 px-4 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-widest shadow-md whitespace-nowrap animate-bounce flex items-center gap-1 z-10">
                 <Star size={14} fill="currentColor" /> Producto Estrella
               </div>
@@ -255,7 +262,6 @@ export default function App() {
               <h3 className="font-black text-xl text-gray-900 mb-1">MUNO T</h3>
               <p className="text-[10px] text-gray-500 font-bold mb-2 uppercase tracking-wider bg-gray-100 px-2 py-0.5 rounded">Limpieza Hepática</p>
               
-              {/* PRECIO MUNO T */}
               <div className="text-xs bg-orange-50 text-[#f1560f] font-extrabold px-3 py-1 rounded-lg mb-3">
                 1 x $85.000 | 2 x $165.000 | Reto Completo $300.000
               </div>
@@ -266,7 +272,6 @@ export default function App() {
                 <Info size={14} /> {expandedProduct === 1 ? "Ocultar" : "Ver componentes y ciencia"}
               </div>
 
-              {/* LEYENDA EXTRA DESPLEGABLE */}
               {expandedProduct === 1 && (
                 <div className="w-full mt-4 pt-4 border-t border-gray-100 text-left bg-orange-50/50 p-3 rounded-xl transition-all">
                   <p className="text-xs text-gray-700 font-bold mb-1">🧬 Rigor Clínico:</p>
@@ -353,31 +358,53 @@ export default function App() {
         </div>
       </section>
 
-      {/* SECCIÓN DE VIDEO 1: ENFOQUE CLÍNICO MUNO T */}
+      {/* SECCIÓN DE VIDEO 1: ENFOQUE CLÍNICO MUNO T (TEXTOS Y VIDEO REEMPLAZADOS) */}
       <section className="py-16 px-4 bg-orange-50 border-y border-orange-100">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-10">
           <div className="w-full md:w-5/12 max-w-[320px] mx-auto">
             <div className="relative aspect-[9/16] bg-black rounded-3xl overflow-hidden shadow-xl border-4 border-white">
-              <video controls playsInline className="w-full h-full object-cover" poster="/logo.png">
-                <source src="/video-munot.mp4" type="video/mp4" />
-              </video>
-              <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none group-hover:bg-black/40 transition-all">
-                <div className="w-14 h-14 bg-[#f1560f] rounded-full flex items-center justify-center text-white shadow-lg animate-pulse">
-                  <Play size={24} fill="currentColor" className="ml-1" />
-                </div>
-              </div>
+              {/* Nuevo iframe de YouTube embebido */}
+              <iframe 
+                className="w-full h-full absolute top-0 left-0"
+                src="https://www.youtube.com/embed/Gsg59OrmMo4" 
+                title="Conoce las fórmulas" 
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowFullScreen>
+              </iframe>
             </div>
           </div>
           <div className="w-full md:w-7/12">
-            <span className="text-[#f1560f] font-black uppercase text-xs tracking-wider bg-orange-200/50 px-3 py-1 rounded">Video de Enfoque Clínico</span>
-            <h2 className="text-3xl font-black text-gray-900 mt-3 mb-4">MUNO T: La Llave Maestra para Desbloquear tu Metabolismo</h2>
-            <p className="text-gray-700 text-sm leading-relaxed mb-4">
-              En este video, desglosamos la ciencia detrás de **MUNO T**. Entenderás cómo actúa directamente sobre las enzimas hepáticas en los procesos de desintoxicación y cómo su efecto desinflamatorio logra deshacer la costra intestinal acumulada.
-            </p>
-            <ul className="space-y-2 text-xs font-bold text-gray-800">
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#f1560f]" /> Regulación del peristaltismo de forma sutil.</li>
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-[#f1560f]" /> Eliminación de retención de líquidos acumulados.</li>
-            </ul>
+            <span className="text-[#f1560f] font-black uppercase text-xs tracking-wider bg-orange-200/50 px-3 py-1 rounded">Sinergia Completa</span>
+            
+            <div className="mt-6 space-y-4">
+              <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:border-orange-200 transition-colors">
+                <h3 className="text-lg font-black text-gray-900 mb-1 flex items-center gap-2">
+                  <CheckCircle2 className="w-5 h-5 text-[#f1560f]" /> CelionPower: Nutrición Total
+                </h3>
+                <p className="text-gray-600 text-sm leading-relaxed pl-7">
+                  El poder de la naturaleza en una dosis. Más de 240 bioactivos que actúan como combustible premium para tu cuerpo. Ideal para licuados matutinos.
+                </p>
+              </div>
+
+              <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:border-orange-200 transition-colors">
+                <h3 className="text-lg font-black text-gray-900 mb-1 flex items-center gap-2">
+                  <CheckCircle2 className="w-5 h-5 text-[#f1560f]" /> Celion Boost: Energía sin Límites
+                </h3>
+                <p className="text-gray-600 text-sm leading-relaxed pl-7">
+                  Oxigena y acelera. Un escudo antioxidante que protege tus células y dispara tu producción de energía natural.
+                </p>
+              </div>
+
+              <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:border-orange-200 transition-colors">
+                <h3 className="text-lg font-black text-gray-900 mb-1 flex items-center gap-2">
+                  <CheckCircle2 className="w-5 h-5 text-[#f1560f]" /> Muno T: Limpieza Profunda
+                </h3>
+                <p className="text-gray-600 text-sm leading-relaxed pl-7">
+                  Tu cuerpo, optimizado. Activa tus sistemas de eliminación natural (hígado, riñones, piel) para una desintoxicación efectiva desde adentro hacia afuera.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -521,7 +548,6 @@ export default function App() {
               <span className="font-bold uppercase tracking-widest">¡12000!</span>
             </div>
 
-            {/* Sellos Farmacéuticos movidos aquí para aportar valor en la compra */}
             <div className="mt-8 border-t border-white/10 pt-6">
                <div className="flex items-center gap-3 mb-2">
                  <ShieldCheck className="w-8 h-8 text-[#f1560f]" />
@@ -600,18 +626,30 @@ export default function App() {
             {[
               { 
                 q: "¿Genera algún tipo de dependencia o efecto rebote al terminar?", 
-                a: "En absoluto. Al estar libre de laxantes irritantes, el tratamiento enseña a tu organismo a autoregularse. Una vez completados los 28 días, tu cuerpo mantiene su ritmo." 
+                a: "En absoluto. Al estar libre de laxantes irritantes químicos, el tratamiento le enseña a tu organismo a autoregularse de manera orgánica. Una vez completados los 28 días de la limpieza y nutrición, tu cuerpo mantendrá su ritmo natural." 
               },
               { 
                 q: "¿A partir de qué día empiezo a ver cambios reales?", 
-                a: "La desinflamación del colon y la ligereza estomacal se sienten notablemente desde los primeros 3 a 5 días." 
+                a: "La desinflamación del colon y la ligereza estomacal se sienten notablemente desde los primeros 3 a 5 días de iniciado el reto. Por otro lado, la mejora en tus niveles de energía, claridad mental y un mejor descanso, irán escalando de forma progresiva a lo largo de las primeras dos semanas." 
               },
               { 
                 q: "¿Cómo funciona exactamente la logística del pago contra entrega?", 
-                a: "Es la modalidad más segura. Haces la solicitud llenando el formulario de arriba. Nosotros preparamos el paquete y el mensajero te lo entrega en tus manos. Pagas en efectivo al recibir." 
+                a: "Es la modalidad más segura y confiable. Solamente debes hacer tu solicitud llenando el formulario de envío. Nosotros prepararemos tu paquete, el mensajero irá hasta tu domicilio y tú pagarás en efectivo únicamente al tener los productos en tus manos. ¡Cero riesgos!" 
+              },
+              {
+                q: "¿Los productos cuentan con algún registro sanitario en Colombia?",
+                a: "¡Sí, por supuesto! Todas nuestras fórmulas son desarrolladas en laboratorios certificados y están debidamente avaladas para su libre venta con registros sanitarios vigentes (Ej. NSA-1373-2026 y RSA-1473-2026), lo que te garantiza los más estrictos estándares de calidad y seguridad farmacéutica."
+              },
+              {
+                q: "¿Tienen contraindicaciones para personas hipertensas o diabéticas?",
+                a: "Nuestras fórmulas tienen una base de fitonutrientes naturales, plantas y superalimentos. No contienen azúcares refinados añadidos ni estimulantes agresivos para el corazón. Sin embargo, si tienes una condición médica crónica o estás bajo tratamiento farmacológico, siempre te recomendaremos que le muestres los ingredientes a tu médico de cabecera antes de iniciar el reto."
+              },
+              {
+                q: "¿Cuánto tiempo se demora en llegar mi pedido?",
+                a: "Si te encuentras en la ciudad de Piedecuesta, tu pedido puede ser entregado el mismo día de tu compra o al día siguiente hábil. Para el resto del Área Metropolitana de Bucaramanga y alrededores, el tiempo de entrega oscila regularmente entre 24 y 48 horas hábiles."
               }
             ].map((faq, index) => (
-              <div key={index} className="border border-gray-200 rounded-2xl overflow-hidden shadow-sm transition-all duration-300">
+              <div key={index} className="border border-gray-200 rounded-2xl overflow-hidden shadow-sm transition-all duration-300 hover:border-[#f1560f]/50">
                 <button onClick={() => toggleFaq(index)} className="w-full px-6 py-5 text-left font-bold text-gray-900 flex justify-between items-center bg-gray-50 hover:bg-orange-50 transition-colors">
                   <span className="pr-4 text-sm md:text-base">{faq.q}</span>
                   <ChevronDown className={`w-5 h-5 text-[#f1560f] shrink-0 transition-transform ${openFaq === index ? 'rotate-180' : ''}`} />
@@ -627,6 +665,27 @@ export default function App() {
         </div>
       </section>
 
+      {/* BLOQUE 8: CONOCE CELION LABS (VIDEO YOUTUBE FINAL) */}
+      <section className="py-20 px-4 bg-gray-50 border-t border-gray-200">
+        <div className="max-w-4xl mx-auto text-center">
+          <span className="text-[#f1560f] font-black uppercase tracking-widest text-sm mb-2 block">Respaldo Científico</span>
+          <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-6">Bienvenidos a Celion Labs</h2>
+          <p className="text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+            Conoce el corazón de nuestras operaciones. Descubre dónde la ciencia, la pureza de los ingredientes de alta calidad y el rigor clínico se unen para crear las fórmulas biocéuticas que transformarán tu vida para siempre.
+          </p>
+          <div className="relative aspect-video bg-black rounded-3xl overflow-hidden shadow-2xl border-8 border-white">
+            <iframe 
+              className="w-full h-full absolute top-0 left-0"
+              src="https://www.youtube.com/embed/GTDRKlcV76o?autoplay=0" 
+              title="Bienvenidos a Celion Labs" 
+              frameBorder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              allowFullScreen>
+            </iframe>
+          </div>
+        </div>
+      </section>
+
       {/* FOOTER */}
       <footer className="bg-gray-100 text-gray-500 py-12 text-center px-4 border-t border-gray-200">
         <div className="max-w-4xl mx-auto flex flex-col items-center">
@@ -638,13 +697,15 @@ export default function App() {
         </div>
       </footer>
 
-      {/* BOTÓN FLOTANTE WHATSAPP (A PUNTA AL CHECKOUT PARA MEJORAR CONVERSIÓN O WHATSAPP DIRECTO) */}
+      {/* BOTÓN FLOTANTE WHATSAPP (MODIFICADO CON LOGO SVG OFICIAL) */}
       <div className="fixed bottom-6 right-6 z-50">
         <button 
-          onClick={scrollToCheckout}
-          className="w-16 h-16 bg-[#25D366] rounded-full flex items-center justify-center shadow-[0_4px_20px_rgba(37,211,102,0.4)] animate-pulse hover:scale-110 transition-transform cursor-pointer"
+          onClick={openWhatsAppGeneral}
+          className="w-16 h-16 bg-[#25D366] rounded-full flex items-center justify-center shadow-[0_4px_20px_rgba(37,211,102,0.4)] animate-pulse hover:scale-110 transition-transform cursor-pointer border-2 border-white"
         >
-          <Package className="w-8 h-8 text-white" />
+          <svg viewBox="0 0 24 24" width="34" height="34" fill="white">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+          </svg>
         </button>
       </div>
 
